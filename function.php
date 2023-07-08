@@ -42,7 +42,9 @@ function generatePassword($passwordLength, $allowDuplicates, $charsToUse) {
     while(strlen($password) < $passwordLength) {
         $index = randomNum(0, strlen($baseString) - 1);
         $char = $baseString[$index];
-        $password .= $char;
+        if($allowDuplicates || !str_contains($password, $char)){
+            $password .= $char;
+        }
     }
 
     session_start();
