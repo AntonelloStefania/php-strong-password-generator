@@ -1,6 +1,16 @@
 <?php
 
-include 'function.php'
+
+include 'function.php';
+
+if(isset($_GET['pswLength'])){
+    $passwordLength = $_GET['pswLength'];
+    $allowDuplicates = $_GET['allow-duplicates'] === '1' ? true : false;
+    $characters = isset($_GET['characters']) ? $_GET['characters'] : array();
+    
+    $response = generatePassword($passwordLength, $allowDuplicates, $characters);
+}
+
 
 ?>
 
@@ -13,25 +23,45 @@ include 'function.php'
     <title>Document</title>
 </head>
 <body>
-    <form class="d-flex  " action="index.php" method="GET">
-        <div class="form-group col-3 ">
-            <label for="inputPassword2" class="sr-only" >Password length</label>
-            <input name="psw-length" type="number" min=5 class="form-control" id="inputPassword2" placeholder="Password char number">
+    <form class="d-flex" action="index.php" method="GET">
+        <div class="form-group col-3">
+            <label for="inputPassword2" class="sr-only">Password length</label>
+            <input name="pswLength" type="number" min="5" class="form-control" id="inputPassword2" placeholder="Password char number">
         </div>
-        <!-- <div class="form-group align-self-end pb-2 ms-3">
-            <label for="repeatedChar">permettere charatteri ripetuti?</label>
-            <input class="form-check-input" type="checkbox" id="repeatedChar" name="repeatedChar" >
-        </div> -->
         <div class="form-group d-flex">
-            <button type="submit" class="btn btn-primary ms-3 align-self-end ">send</button>
-            <button class="btn btn-danger ms-3 align-self-end">annulla</button>
+            <button type="submit" class="btn btn-primary ms-3 align-self-end">Send</button>
+            <button class="btn btn-danger ms-3 align-self-end">Annulla</button>
+        </div>
+        <div class="ms-5"> 
+            <fieldset>
+                <legend>Consenti caratteri speciali:</legend>
+                <div class="form-check">
+                    <label for="allow-duplicates-yes">Si</label>
+                    <input type="radio" class="form-check-input" name="allow-duplicates" id="allow-duplicates" value="1" checked>
+                </div>
+                <div class="form-check">
+                    <label for="allow-duplicates-not">No</label>
+                    <input type="radio" class="form-check-input" name="allow-duplicates" id="allow-duplicates" value="0">
+                </div>
+            </fieldset>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" id="char" name="characters[]" class="form-check-input" value="L">
+                        <label for="char">Lettere</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="char" name="characters[]" class="form-check-input" value="N">
+                        <label for="char">Numeri</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="char" name="characters[]" class="form-check-input" value="C">
+                        <label for="char">Caratteri speciali</label>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
-    <div>
-        <?php if(isset($_GET['psw-length']) && $_GET['psw-length'] != ''){ ?>
-            <span><?php echo randomPasswordGen()?></span>
-        <?php }?>
-    </div>
     
 </body>
 </html>
